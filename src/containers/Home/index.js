@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
-import {Compare, ProductList} from '../../components'
+import {Compare, ProductList, ColorSelector} from '../../components'
 import * as productActions from '../../actions/product'
 import {connect} from 'react-redux'
 
@@ -10,8 +10,10 @@ class Home extends Component {
   }
 
   render() {
-    const {products, actions} = this.props;
+    const {products, filterColor, actions} = this.props;
     const compareProducts = products.filter(product => product.compare);
+    const productsFilteredByColor = filterColor !== 'none' ? 
+      compareProducts.filter(product => product.colors.includes(filterColor)) : compareProducts;
 
     return (
       <div className="home mt-5">
@@ -21,8 +23,9 @@ class Home extends Component {
           </div>
         </div>
         <ProductList products={products} compare={actions.compare}/>
+        <ColorSelector filterColor={filterColor} changeFilterColor={actions.changeFilterColor} />
         {compareProducts.length >= 2 &&
-          <Compare products={compareProducts}/>
+          <Compare products={productsFilteredByColor}/>
         }
       </div>
     )
@@ -31,9 +34,10 @@ class Home extends Component {
 
 export default connect(
   state => ({
-    products: state.product.products
+    products: state.product.products,
+    filterColor: state.product.filterColor,
   }),
   dispatch => ({
-    actions: bindActionCreators(productActions, dispatch)
+    actions: bindActionCreators(productActions, dispatch),
   })
 )(Home)

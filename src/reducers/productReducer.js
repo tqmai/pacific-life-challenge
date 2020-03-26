@@ -1,7 +1,8 @@
 import * as types from '../constants/types'
 
 const INITIAL_STATE = {
-  products: []
+  products: [],
+  filterColor: 'none',
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -20,6 +21,11 @@ export default function (state = INITIAL_STATE, action) {
             product
         )
       };
+    case types.CHANGE_FILTER_COLOR:
+      return {
+        ...state,
+        filterColor: action.color,
+      }
     default:
       return state
   }

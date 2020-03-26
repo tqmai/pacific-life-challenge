@@ -12,6 +12,11 @@ export const getProducts = () =>
       })
 
 export const compare = product => ({
-    type: types.COMPARE_PRODUCT,
-    product
-  })
+  type: types.COMPARE_PRODUCT,
+  product
+})
+
+export const changeFilterColor = color => ({
+  type: types.CHANGE_FILTER_COLOR,
+  color,
+});
